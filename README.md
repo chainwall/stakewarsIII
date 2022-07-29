@@ -154,7 +154,20 @@ near login
 
 y yapınca alttaki ekranın gelmesi gerekiyor.
 
-![19](https://user-images.githubusercontent.com/108091544/181661365-074b0787-9e0c-4a9a-87ec-9093928d2ffc.PNG)
+![18](https://user-images.githubusercontent.com/108091544/181837736-fb1fdd4e-2e16-48d5-bd39-b246bbbfacc8.PNG)
+
 
 Link kopyalayıp cüzdanın açtığımız yere yapıştırıyoruz.
+
+![19](https://user-images.githubusercontent.com/108091544/181837761-d00262c0-0ab6-4796-ae6d-d5257b06074f.PNG)
+
+Yapıştırdığımızda ss'de ki gibi bir ekran gelmesi lazım ve sonraki butonuna basarak ilerliyoruz.
+
+![20](https://user-images.githubusercontent.com/108091544/181837945-fad678cf-9ad0-4379-9425-4281b0a252e2.PNG)
+
+![21](https://user-images.githubusercontent.com/108091544/181839435-c2225c77-f3bd-40e2-85c6-ee9c5d693379.PNG)
+
+Onayla yapıp devam ediyoruz.
+
+![22](https://user-images.githubusercontent.com/108091544/181839470-8505be62-8f8e-4fc4-a85e-b472972e3ace.PNG)
 
