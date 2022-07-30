@@ -230,7 +230,6 @@ KillMode=mixed
 
 [Install]
 WantedBy=multi-user.target
-
 ```
 
 Node Başlatmak
@@ -276,6 +275,7 @@ near call <staking_pool_id> unstake '{"amount": "<amount yoctoNEAR>"}' --account
 Bütün coinleri unstake etmek için kullandığımız kod.
 ```
 near call <staking_pool_id> unstake_all --accountId <accountId> --gas=300000000000000
+```
 
 Unstake yaptıktan 2-3 epoch sonra birinci kodla istediğimiz miktarı cüzdana 2. kodlada bütün coinleri cüzdana çekebiliriz.
 ```
