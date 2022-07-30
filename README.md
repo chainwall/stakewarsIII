@@ -246,7 +246,7 @@ Service de değişiklik yaparsanız aşaıdaki kode kullandıktan sonra startlay
 systemctl daemon-reload
 ```
 
-# 3. Görev: Havuz Oluştuırma
+# 3. Görev: Havuz Oluşturma
 
 Kodu örneği ile birlikte yazdım. Kendinize göre düzenleme yaptıktan sonra kodu girince ss'de ki gibi bir sonuçla karşılaşmalısınız.
 
@@ -262,4 +262,69 @@ near call factory.shardnet.near create_staking_pool '{"staking_pool_id": "nakotu
 
 Oluşturma işlemi bittikten sonra aşağıdaki linkte hesabınızı bulup yaptığınız işlemleri ve havuza yaptığınız stake miktarını görebilirsiniz
  -https://explorer.shardnet.near.org/accounts
+
+Ek stake yapmak istersek aşağıdaki kodu kullanıyoruz
+```
+near call <staking_pool_id> deposit_and_stake --amount <amount> --accountId <accountId> --gas=300000000000000
+```
+
+Unstake için aşağıdaki kodu kullanabilirsiniz.
+```
+near call <staking_pool_id> unstake '{"amount": "<amount yoctoNEAR>"}' --accountId <accountId> --gas=300000000000000
+```
+
+Bütün coinleri unstake etmek için kullandığımız kod.
+```
+near call <staking_pool_id> unstake_all --accountId <accountId> --gas=300000000000000
+
+Unstake yaptıktan 2-3 epoch sonra birinci kodla istediğimiz miktarı cüzdana 2. kodlada bütün coinleri cüzdana çekebiliriz.
+```
+near call <staking_pool_id> withdraw '{"amount": "<amount yoctoNEAR>"}' --accountId <accountId> --gas=300000000000000
+```
+
+```
+near call <staking_pool_id> withdraw_all --accountId <accountId> --gas=300000000000000
+```
+
+Staked Miktarı
+```
+near view <staking_pool_id> get_account_staked_balance '{"account_id": "<accountId>"}'
+```
+
+Unstaked Miktarı
+```
+near view <staking_pool_id> get_account_unstaked_balance '{"account_id": "<accountId>"}'
+```
+
+Cüzdana çekilebilir miktarın uygunluğunu görmek için aşağıdaki kodu kullanırız ve sonucun true çıkarmasını bekleriz.
+```
+near view <staking_pool_id> is_account_unstaked_balance_available '{"account_id": "<accountId>"}'
+```
+
+# 4-) Node Kontrol Etme
+
+Loglar için
+```
+journalctl -n 100 -f -u neard | ccze -A
+```
+
+Düğüm sürümünüzü kontrol etmek
+```
+curl -s http://127.0.0.1:3030/status | jq .version
+```
+
+Delegeleri ve Stake'i Kontrol Etmek
+```
+near view <your pool>.factory.shardnet.near get_accounts '{"from_index": 0, "limit": 10}' --accountId <accountId>.shardnet.near
+```
+
+Doğrulayıcının atılıp atılmadığını görmek
+```
+curl -s -d '{"jsonrpc": "2.0", "method": "validators", "id": "dontcare", "params": [null]}' -H 'Content-Type: application/json' 127.0.0.1:3030 | jq -c '.result.prev_epoch_kickout[] | select(.account_id | contains ("<POOL_ID>"))' | jq .reason
+```
+
+Üretilen Blokları Kontrol Etmek
+```
+curl -s -d '{"jsonrpc": "2.0", "method": "validators", "id": "dontcare", "params": [null]}' -H 'Content-Type: application/json' 127.0.0.1:3030 | jq -c '.result.current_validators[] | select(.account_id | contains ("POOL_ID"))'
+```
 
