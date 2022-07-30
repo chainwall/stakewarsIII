@@ -1,7 +1,7 @@
 ![180663821-187214c4-7ac5-4b15-8c5a-0ca6a8d21dd9](https://user-images.githubusercontent.com/108091544/181376598-900610ab-9a4b-4c52-85b4-c8e30c661790.png)
 # Near Stake Wars III için validator oluşturma işlemi adım adım anlatılmıştır. Yapılan görevler sonucunda 1 yıl kilitli olmak şartı ile 50000 adet Near token kazanma şansınız olacak.
 
-# 1-)Cüzdan ve Cli Kurulumu
+# 1. Görev: Cüzdan ve Cli Kurulumu
 
 Öncelikle şu adrese gidiyoruz `https://wallet.shardnet.near.org` daha sonradan görsellerdeki gibi cüzdan oluşturuyoruz.
 
@@ -77,10 +77,16 @@ near validators current
 near validators next
 ```
 
-2-) Node Kurulumu
+# 2. Görev: Node Kurulumu
 
 Kodu girdiğimizde ss'de ki gibi bir çıktı almalıyız.
 ![10](https://user-images.githubusercontent.com/108091544/181586114-46739e6a-5983-4441-9c16-f5f8cf45128b.PNG)
+
+```
+lscpu | grep -P '(?=.*avx )(?=.*sse4.2 )(?=.*cx16 )(?=.*popcnt )' > /dev/null \
+  && echo "Supported" \
+  || echo "Not supported"
+```
 
 Güncelleme kodunu giriyoruz
 ```
@@ -239,3 +245,19 @@ Service de değişiklik yaparsanız aşaıdaki kode kullandıktan sonra startlay
 ```
 systemctl daemon-reload
 ```
+
+# 3. Görev: Havuz Oluştuırma
+
+Kodu örneği ile birlikte yazdım. Kendinize göre düzenleme yaptıktan sonra kodu girince ss'de ki gibi bir sonuçla karşılaşmalısınız.
+
+```near call factory.shardnet.near create_staking_pool '{"staking_pool_id": "<pool id>", "owner_id": "<accountId>", "stake_public_key": "<public key>", "reward_fee_fraction": {"numerator": 5, "denominator": 100}, "code_hash":"DD428g9eqLL8fWUxv8QSpVFzyHi1Qd16P8ephYCTmMSZ"}' --accountId="<accountId>" --amount=30 --gas=300000000000000```
+
+Örnek
+
+```
+near call factory.shardnet.near create_staking_pool '{"staking_pool_id": "nakoturk0", "owner_id": "nakoturk0.shardnet.near", "stake_public_key": "ed25519:9XhXJhLx7JKYsWemkteaNED7FwZRudxYM", "reward_fee_fraction": {"numerator": 5, "denominator": 100}, "code_hash":"DD428g9eqLL8fWUxv8QSpVFzyHi1Qd16P8ephYCTmMSZ"}' --accountId="nakoturk0.shardnet.near" --amount=250 --gas=300000000000000
+```
+
+Oluşturma işlemi bittikten sonra aşağıdaki linkte hesabınızı bulup yaptığınız işlemleri ve havuza yaptığınız stake miktarını görebilirsiniz
+ -https://explorer.shardnet.near.org/accounts
+
