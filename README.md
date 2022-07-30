@@ -171,3 +171,71 @@ Onayla yapıp devam ediyoruz.
 
 ![22](https://user-images.githubusercontent.com/108091544/181839470-8505be62-8f8e-4fc4-a85e-b472972e3ace.PNG)
 
+Şu şekilde bir ekranın gelmesi lazım.
+
+![24](https://user-images.githubusercontent.com/108091544/181861436-c5a9df04-f9d1-4b28-8050-0939719f583a.PNG)
+
+Daha sonra node ekranına cüzdan adresinizi ss'deki gibi girip enterlamalısınız.
+
+![25](https://user-images.githubusercontent.com/108091544/181861510-5f421689-bdd9-49e1-a919-2fd889b8bda8.PNG)
+
+Pool oluşturma adımına geçiyoruz aşağıdaki kodla pool oluşturuyoruz.  `nakoturk0.factory.shardnet.near` gibi. Burada nakoturk0 sizin vereceğiniz bir isim olmalı ve gerisi olduğpu gibi kalacak
+```
+near generate-key <pool_id>
+```
+
+Oluşturduktan sonra aşağıdaki kodu ss'deki gibi kendi verdiğiniz isme göre düzenleyip enter'a basıyorsunuz
+```
+cp ~/.near-credentials/shardnet/YOUR_WALLET.json ~/.near/validator_key.json
+```
+![26](https://user-images.githubusercontent.com/108091544/181862069-eabdbbe5-01a0-491d-a485-cbedf1713317.PNG)
+
+Terminale gidip aşağıdaki kodu giriyoruz. 
+```
+target/release/neard run
+```
+İkinci ss'de Downloading bölümü %100 olana kadar bekliyoruz sonra Ctrl+C yapıp durduruyoruz.
+![27](https://user-images.githubusercontent.com/108091544/181862195-d6bd62b0-4865-4b0f-8ec7-cbc21cc9ddb4.PNG)
+![28](https://user-images.githubusercontent.com/108091544/181862197-2559beb8-6ad0-4e6d-9fae-f8700302368a.PNG)
+
+Service oluşturuyoruz.
+
+```
+sudo nano /etc/systemd/system/neard.service
+```
+
+Bu kodla oluşturdukttan sonra aşağıdaki kodları olduğu gibi o ekrana yapıştırıp. Ctrl+x sonra y ye basıp enter'a basıyoru.
+
+```
+[Unit]
+Description=NEARd Daemon Service
+
+[Service]
+Type=simple
+User=root
+#Group=near
+WorkingDirectory=/root/.near
+ExecStart=/root/nearcore/target/release/neard run
+Restart=on-failure
+RestartSec=30
+KillSignal=SIGINT
+TimeoutStopSec=45
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+Node Başlatmak
+
+```
+sudo systemctl enable neard
+sudo systemctl start neard
+```
+![29](https://user-images.githubusercontent.com/108091544/181862623-68c80cd1-45c8-4289-8636-7b73688cacad.PNG)
+
+Service de değişiklik yaparsanız aşaıdaki kode kullandıktan sonra startlayın.
+```
+systemctl daemon-reload
+```
